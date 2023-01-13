@@ -7,7 +7,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { useNavigate } from 'react-router-dom';
 import styles from './CreatePostForm.module.css';
 
-interface CreateFormData {
+interface PostFormData {
   title: string;
   body: string;
 }
@@ -25,13 +25,13 @@ export default function CreatePostForm() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<CreateFormData>({
+  } = useForm<PostFormData>({
     resolver: yupResolver(schema),
   });
 
   const postsRef = collection(db, 'posts');
 
-  const onCreatePost = async (data: CreateFormData) => {
+  const onCreatePost = async (data: PostFormData) => {
     // console.log(data);
     await addDoc(postsRef, {
       ...data,

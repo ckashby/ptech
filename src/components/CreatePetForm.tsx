@@ -32,7 +32,7 @@ export const CreatePetForm = () => {
   const petsFbRef = collection(db, 'pets');
 
   const onCreatePet = async (data: PetFormData) => {
-    console.log(data);
+    // console.log(data);
     await addDoc(petsFbRef, {
       ...data,
       username: user?.displayName,
@@ -45,11 +45,14 @@ export const CreatePetForm = () => {
     <div>
       <h3>Add New Pet</h3>
       <form onSubmit={handleSubmit(onCreatePet)} className={styles.form}>
-        <input type="text" {...register('name')} />
+        <label htmlFor='name'>Name</label>
+        <input type="text" id='name' {...register('name')} />
         <p style={{ color: 'red' }}>{errors.name?.message}</p>
-        <input type="text" {...register('species')} />
+        <label htmlFor='species'>Species</label>
+        <input type="text" id='species' {...register('species')} />
         <p style={{ color: 'red' }}>{errors.species?.message}</p>
-        <input type="text" {...register('breed')} />
+        <label htmlFor='breed'>Breed</label>
+        <input type="text" id='breed' {...register('breed')} />
         <p style={{ color: 'red' }}>{errors.breed?.message}</p>
 
         <input type="submit" />
