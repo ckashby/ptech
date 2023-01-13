@@ -1,11 +1,35 @@
-import { auth } from '../config/firebase';
+import { useEffect, useState } from 'react';
+import { getDocs, collection } from 'firebase/firestore';
+import { auth, db } from '../config/firebase';
+import Post from '../components/Post';
+export interface PostInterface {
+  id: string;
+  title: string;
+  body: string;
+  userId: string;
+  username: string;
+}
 
 export default function Main() {
+  const [postsList, setPostsList] = useState<PostInterface[] | null>(null);
+  const postsRef = collection(db, 'posts');
+
+  const getPosts = async () => {
+    const data = await getDocs(postsRef);
+    // console.log(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    setPostsList(
+      data.docs.map((doc) => ({ ...doc.data(), id: doc.id })) as PostInterface[]
+    );
+  };
+
+  useEffect(() => {
+    getPosts();
+  }, []);
+
   return (
     <div>
-      <h2>Home Page</h2>
+      <h2>Welcome Page</h2>
       <p>
-        Welcome {auth.currentUser?.displayName}{' '}
         <img
           src={auth.currentUser?.photoURL || ''}
           alt="profile pic"
@@ -13,7 +37,12 @@ export default function Main() {
           height="100px"
         />
       </p>
-      {auth.currentUser?.email}
+      <hr />
+      <ul>
+        {postsList?.map((post) => (
+          <Post post={post} />
+        ))}
+      </ul>
     </div>
   );
 }
