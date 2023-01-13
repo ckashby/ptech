@@ -5,6 +5,7 @@ import CreatePost from './pages/CreatePost';
 import Login from './pages/Login';
 import Main from './pages/Main';
 import { PetsList } from './pages/PetsList';
+import { ToysList } from './pages/ToysList';
 
 function App() {
   return (
@@ -17,7 +18,7 @@ function App() {
           <Route path="/create-post" element={<CreatePost />} />
           <Route path="/pets" element={<PetsList />} />
           <Route path="/create-pet" element={<CreatePet />} />
-          <Route path='/toys' element={<h1>Toy List</h1>} />
+          <Route path='/toys' element={<ToysList />} />
           <Route path='/add-toy' element={<h1>Add Toy Page</h1>} />
         </Routes>
       </BrowserRouter>
