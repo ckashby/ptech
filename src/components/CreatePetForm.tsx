@@ -7,7 +7,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { useNavigate } from 'react-router-dom';
 import styles from './CreatePetForm.module.css';
 
-interface PetFormData {
+interface PetFormInterface {
   name: string;
   species: string;
   breed: string;
@@ -27,11 +27,11 @@ export const CreatePetForm = () => {
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm<PetFormData>({ resolver: yupResolver(schema) });
+  } = useForm<PetFormInterface>({ resolver: yupResolver(schema) });
 
   const petsFbRef = collection(db, 'pets');
 
-  const onCreatePet = async (data: PetFormData) => {
+  const onCreatePet = async (data: PetFormInterface) => {
     // console.log(data);
     await addDoc(petsFbRef, {
       ...data,
