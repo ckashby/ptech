@@ -14,9 +14,11 @@ function App() {
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/create-post" element={<CreatePost />} />
           <Route path="/pets" element={<PetsList />} />
           <Route path="/create-pet" element={<CreatePet />} />
-          <Route path="/create-post" element={<CreatePost />} />
+          <Route path='/toys' element={<h1>Toy List</h1>} />
+          <Route path='/add-toy' element={<h1>Add Toy Page</h1>} />
         </Routes>
       </BrowserRouter>
     </div>
