@@ -16,6 +16,8 @@ export default function Navbar() {
   return (
     <div className={styles.navbar}>
       <Link to="/">Home</Link>
+      {user ? <Link to='/toys'>Toys</Link> : ''}
+      {user ? <Link to='/add-toy'>Add Toy</Link> : ''}
       {user ? <Link to="/pets">Pets</Link> : ''}
       {user ? <Link to="/create-pet">Add Pet</Link> : ''}
       {user ? <Link to="/create-post">Create Post</Link> : ''}
