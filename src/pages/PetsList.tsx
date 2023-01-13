@@ -32,9 +32,11 @@ export const PetsList = () => {
   return (
     <div>
       <h3>Pets List</h3>
-      {petList?.map(pet => (
-        <Pet pet={pet}/>
-      ))}
+      <ul>
+        {petList?.map((pet) => (
+          <Pet pet={pet} />
+        ))}
+      </ul>
     </div>
   );
 };
