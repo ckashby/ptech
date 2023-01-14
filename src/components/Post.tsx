@@ -17,6 +17,7 @@ interface Props {
 }
 
 interface Like {
+  likeId: string;
   userId: string;
 }
 
@@ -33,17 +34,24 @@ export default function Post(props: Props) {
   const getLikes = async () => {
     const data = await getDocs(likesDoc);
     // console.log(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-    setLikes(data.docs.map((doc) => ({ userId: doc.data().userId })));
+    setLikes(
+      data.docs.map((doc) => ({ userId: doc.data().userId, likeId: doc.id }))
+    );
   };
 
   const hasUserLiked = likes?.find((like) => like.userId === user?.uid);
 
   const onAddLike = async () => {
     try {
-      await addDoc(likesFbRef, { userId: user?.uid, postId: post.id });
+      const newDoc = await addDoc(likesFbRef, {
+        userId: user?.uid,
+        postId: post.id,
+      });
       if (user) {
         setLikes((prev) =>
-          prev ? [...prev, { userId: user.uid }] : [{ userId: user.uid }]
+          prev
+            ? [...prev, { userId: user.uid, likeId: newDoc.id }]
+            : [{ userId: user.uid, likeId: newDoc.id }]
         );
       }
     } catch (err) {
@@ -60,14 +68,11 @@ export default function Post(props: Props) {
       );
 
       const likeToDeleteData = await getDocs(likeToDeleteQuery);
-      const likeToDelete = doc(db, 'likes', likeToDeleteData.docs[0].id);
-
+      const likeId = likeToDeleteData.docs[0].id;
+      const likeToDelete = doc(db, 'likes', likeId);
       await deleteDoc(likeToDelete);
-      
       if (user) {
-        setLikes((prev) =>
-          prev ? [...prev, { userId: user.uid }] : [{ userId: user.uid }]
-        );
+        setLikes((prev) => prev && prev.filter((like) => like.likeId !== likeId));
       }
     } catch (err) {
       console.log(err);
@@ -84,7 +89,7 @@ export default function Post(props: Props) {
       <p>
         {post.body} - @{post.username}
       </p>
-      <button onClick={onAddLike}>
+      <button onClick={hasUserLiked ? onRemoveLike : onAddLike}>
         {hasUserLiked ? <>&#128078;</> : <>&#128077;</>}
       </button>
       {likes ? <p>Likes: {likes?.length} </p> : ''}
