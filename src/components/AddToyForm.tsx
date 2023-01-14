@@ -30,7 +30,7 @@ export const AddToyForm = () => {
   const toysFbRef = collection(db, 'toys')
 
   const onAddToy = async (data: IToyForm) => {
-    console.log(data)
+    // console.log(data)
     await addDoc(toysFbRef, {
       ...data,
       username: user?.displayName,
