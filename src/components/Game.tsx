@@ -1,7 +1,15 @@
-import React from 'react'
+import { IGame } from '../pages/GamesList'
 
-export const Game = () => {
+interface Props {
+  game: IGame;
+}
+
+export const Game = (props: Props) => {
+  const { game } = props;
+
   return (
-    <div>Game</div>
+    <li>
+      {game.name} - {game.username}
+    </li>
   )
 }
