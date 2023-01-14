@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { getDocs, collection } from 'firebase/firestore';
 import { auth, db } from '../config/firebase';
 import Post from '../components/Post';
-export interface PostInterface {
+export interface IPost {
   id: string;
   title: string;
   body: string;
@@ -11,14 +11,14 @@ export interface PostInterface {
 }
 
 export default function Main() {
-  const [postsList, setPostsList] = useState<PostInterface[] | null>(null);
+  const [postsList, setPostsList] = useState<IPost[] | null>(null);
   const postsRef = collection(db, 'posts');
 
   const getPosts = async () => {
     const data = await getDocs(postsRef);
     // console.log(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     setPostsList(
-      data.docs.map((doc) => ({ ...doc.data(), id: doc.id })) as PostInterface[]
+      data.docs.map((doc) => ({ ...doc.data(), id: doc.id })) as IPost[]
     );
   };
 

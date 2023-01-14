@@ -1,7 +1,7 @@
-import { PostInterface } from '../pages/Main';
+import { IPost } from '../pages/Main';
 
 interface Props {
-  post: PostInterface;
+  post: IPost;
 }
 
 export default function Post(props: Props) {
