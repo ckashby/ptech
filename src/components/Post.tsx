@@ -31,14 +31,10 @@ export default function Post(props: Props) {
   const hasUserLiked = likes?.find((like) => like.userId === user?.uid);
 
   const onAddLike = async () => {
-    if (hasUserLiked) {
-      return;
-    } else {
       await addDoc(likesFbRef, {
         userId: user?.uid,
         postId: post.id,
       });
-    }
   };
 
   useEffect(() => {
