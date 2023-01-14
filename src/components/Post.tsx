@@ -15,7 +15,9 @@ interface Like {
 export default function Post(props: Props) {
   const { post } = props;
   const [user] = useAuthState(auth);
+
   const likesFbRef = collection(db, 'likes');
+  
   const [likes, setLikes] = useState<Like[] | null>(null);
 
   const likesDoc = query(likesFbRef, where('postId', '==', post.id));
@@ -23,14 +25,20 @@ export default function Post(props: Props) {
   const getLikes = async () => {
     const data = await getDocs(likesDoc);
     // console.log(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-    setLikes(data.docs.map(doc => ({ userId: doc.data().userId })));
+    setLikes(data.docs.map((doc) => ({ userId: doc.data().userId })));
   };
 
+  const hasUserLiked = likes?.find((like) => like.userId === user?.uid);
+
   const onAddLike = async () => {
-    await addDoc(likesFbRef, {
-      userId: user?.uid,
-      postId: post.id,
-    });
+    if (hasUserLiked) {
+      return;
+    } else {
+      await addDoc(likesFbRef, {
+        userId: user?.uid,
+        postId: post.id,
+      });
+    }
   };
 
   useEffect(() => {
@@ -43,7 +51,7 @@ export default function Post(props: Props) {
       <p>
         {post.body} - @{post.username}
       </p>
-      <button onClick={onAddLike}>&#128077;</button>
+      <button onClick={onAddLike}>{hasUserLiked ? <>&#128078;</> : <>&#128077;</>}</button>
       {likes ? <p>Likes: {likes?.length} </p> : ''}
     </li>
   );
