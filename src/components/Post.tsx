@@ -11,7 +11,7 @@ export default function Post(props: Props) {
     <li>
       <h4>{post.title}</h4>
       <p>{post.body} - @{post.username}</p>
-      <p>&#128077; &copy; &reg; &trade; &#64; &#10003; &#36; &yen; &euro; &#8451; &#8457; &#171; &#128077;</p>
+      <button>&#128077;</button> Like!
     </li>
   );
 }
