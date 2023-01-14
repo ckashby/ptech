@@ -3,7 +3,7 @@ import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../config/firebase';
 import { Pet } from '../components/Pet';
 
-export interface PetInterface {
+export interface IPet {
   id: string;
   species: string;
   gender: string;
@@ -14,14 +14,14 @@ export interface PetInterface {
 }
 
 export const PetsList = () => {
-  const [petList, setPetList] = useState<PetInterface[] | null>(null);
+  const [petList, setPetList] = useState<IPet[] | null>(null);
   const petsRef = collection(db, 'pets');
 
   const getPets = async () => {
     const data = await getDocs(petsRef);
     console.log(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     setPetList(
-      data.docs.map((doc) => ({ ...doc.data(), id: doc.id })) as PetInterface[]
+      data.docs.map((doc) => ({ ...doc.data(), id: doc.id })) as IPet[]
     );
   };
 

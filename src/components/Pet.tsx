@@ -1,7 +1,7 @@
-import { PetInterface } from '../pages/PetsList';
+import { IPet } from '../pages/PetsList';
 
 interface Props {
-  pet: PetInterface;
+  pet: IPet;
 }
 
 export const Pet = (props: Props) => {
