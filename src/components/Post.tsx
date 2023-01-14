@@ -1,5 +1,13 @@
 import { IPost } from '../pages/Main';
-import { addDoc, collection, deleteDoc, getDocs, query, where } from 'firebase/firestore';
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  query,
+  where,
+} from 'firebase/firestore';
 import { auth, db } from '../config/firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useEffect, useState } from 'react';
@@ -45,7 +53,17 @@ export default function Post(props: Props) {
 
   const onRemoveLike = async () => {
     try {
-      await addDoc(likesFbRef, { userId: user?.uid, postId: post.id });
+      const likeToDeleteQuery = query(
+        likesFbRef,
+        where('postId', '==', post.id),
+        where('userId', '==', user?.uid)
+      );
+
+      const likeToDeleteData = await getDocs(likeToDeleteQuery);
+      const likeToDelete = doc(db, 'likes', likeToDeleteData.docs[0].id);
+
+      await deleteDoc(likeToDelete);
+      
       if (user) {
         setLikes((prev) =>
           prev ? [...prev, { userId: user.uid }] : [{ userId: user.uid }]
