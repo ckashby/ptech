@@ -1,7 +1,7 @@
-import { ToyInterface } from '../pages/ToysList';
+import { IToy } from '../pages/ToysList';
 
 interface Props {
-  toy: ToyInterface;
+  toy: IToy;
 }
 
 export const Toy = (props: Props) => {

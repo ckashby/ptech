@@ -7,7 +7,7 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from 'react-router-dom'
 import styles from './AddToyForm.module.css'
 
-interface ToyFormInterface {
+interface IToyForm {
   name: string;
   color: string;
 }
@@ -25,11 +25,11 @@ export const AddToyForm = () => {
     handleSubmit,
     register,
     formState: { errors }
-  } = useForm<ToyFormInterface>({ resolver: yupResolver(schema) })
+  } = useForm<IToyForm>({ resolver: yupResolver(schema) })
 
   const toysFbRef = collection(db, 'toys')
 
-  const onAddToy = async (data: ToyFormInterface) => {
+  const onAddToy = async (data: IToyForm) => {
     console.log(data)
     await addDoc(toysFbRef, {
       ...data,
